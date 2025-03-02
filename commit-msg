@@ -1,0 +1,15 @@
+#!/bin/sh
+
+commit_msg_file=$1
+
+# read commit title
+commit_msg=$(head -n 1 "$commit_msg_file")
+
+# reject if the commit title exceeds 50 characters
+if [ ${#commit_msg} -gt 50 ]; then
+  echo "Commit title must not exceed 50 characters. Current length: ${#commit_msg} characters"
+  exit 1
+fi
+
+#return success
+exit 0
