@@ -1,10 +1,66 @@
 [
     {
-      "title": "this commit title length is 50.. should be pass...",
+      "title": "feat: hook: This title length is 50 expect to pass",
       "expected_result": "PASS"
     },
     {
-      "title": "this commit title length is 51.. should be fail....",
+      "title": "feat: hook: This title length is 51. expect to fail",
       "expected_result": "FAIL"
+    },
+    {
+      "title": "feat: uart: title should start with uppercase",
+      "expected_result": "FAIL"
+    },
+    {
+      "title": "feat: uart: Title should start with uppercase",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "fIx: i2c: Category should be lowercase. to fail",
+      "expected_result": "FAIL"
+    },
+    {
+      "title": "fix: i2c: Category should be lowercase",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "doc: ip_name: Test category - doc",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "rename: ip_name: Test category - rename",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "feat: ip_name: Test category - feat",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "fix: ip_name: Test category - fix",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "remove: ip_name: Test category - remove",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "style: ip_name: Test category - style",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "refactor: ip_name: Test category - refactor",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "test: ip_name: Test category - test",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "opt: ip_name: Test category - opt",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "script: ip_name: Test category - script",
+      "expected_result": "PASS"
     }
 ]  
