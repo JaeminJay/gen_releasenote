@@ -1,0 +1,10 @@
+[
+    {
+      "title": "this commit title length is 50.. should be pass...",
+      "expected_result": "PASS"
+    },
+    {
+      "title": "this commit title length is 51.. should be fail....",
+      "expected_result": "FAIL"
+    }
+]  
