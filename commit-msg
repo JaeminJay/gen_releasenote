@@ -11,5 +11,13 @@ if [ ${#commit_msg} -gt 50 ]; then
   exit 1
 fi
 
+regex="^(feat|fix|doc|rename|remove|style|refactor|test|opt|script): [a-z][-_a-z0-9]*: [A-Z][-A-Za-z0-9_ ]*$"
+
+if ! echo "$commit_msg" | grep -Eq "$regex"; then
+  echo "Commit title rule error."
+  exit 1
+fi
+
+
 #return success
 exit 0
