@@ -9,7 +9,7 @@ json_file = 'test/commit_titles.json'
 
 commit_msg_hook = '.git/hooks/commit-msg'
 
-def run_commit_msg_hook(commit_msg, debug=False):    
+def run_commit_msg_hook(commit_msg, debug=False, analysis=False):
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.write(commit_msg.encode('utf-8'))
         temp_file_path = temp_file.name
@@ -18,7 +18,7 @@ def run_commit_msg_hook(commit_msg, debug=False):
         result = subprocess.run([commit_msg_hook, temp_file_path],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
-        if debug:
+        if debug or (analysis and result.returncode == 1):
             print(f"Running commit-msg hook for commit title: {commit_msg}")
             print(f"stdout: {result.stdout.decode()}")
             print(f"stderr: {result.stderr.decode()}")
@@ -30,7 +30,7 @@ def run_commit_msg_hook(commit_msg, debug=False):
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
 
-def test_commit_titles(debug=False, num_repeats=1):
+def test_commit_titles(debug=False, analysis=False, num_repeats=1):
     with open(json_file, 'r') as f:
         data = json.load(f)
 
@@ -46,10 +46,9 @@ def test_commit_titles(debug=False, num_repeats=1):
             title = item["title"]
             expected_result = item["expected_result"]
             
-            success = run_commit_msg_hook(title, debug)
+            success = run_commit_msg_hook(title, debug, analysis)
             
             result = "PASS" if success else "FAIL"
-            
             final_result = "PASS" if expected_result == result else "FAIL"
             
             if final_result == "FAIL":
@@ -74,8 +73,6 @@ def test_commit_titles(debug=False, num_repeats=1):
                 print(f"Actual Result  : {result}")
                 print(f"Final Result   : {final_result}")
                 print("--------------------------------------------------\n\n")
-
-
         if failed_data:
             print("\n==================== Test Failures ====================")
             for fail in failed_data:
@@ -90,6 +87,7 @@ def test_commit_titles(debug=False, num_repeats=1):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Test commit-msg hook with commit titles.')
     parser.add_argument('-d', '--debug', action='store_true', help='Enable debug mode (prints stdout and stderr)')
+    parser.add_argument('-a', '--analysis', action='store_true', help='Enable analysis mode (prints only failed cases)')
     parser.add_argument('-i', '--iterations', type=int, default=1, help='Number of iterations for running tests (default is 1)')
 
     args = parser.parse_args()
@@ -97,4 +95,4 @@ if __name__ == "__main__":
     if not os.path.exists('.git'):
         print("Error: This script must be run from a Git repository.")
     else:
-        test_commit_titles(debug=args.debug, num_repeats=args.iterations)
+        test_commit_titles(debug=args.debug, analysis=args.analysis, num_repeats=args.iterations)
